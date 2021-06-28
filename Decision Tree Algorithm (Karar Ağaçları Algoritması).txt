@@ -1,0 +1,36 @@
+#kutuphaneler tanimlandi
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+#csv dosyasi tanimlandi
+dataset = pd.read_csv( “/home/ece/Belgeler/bill.csv")
+
+#sutun ve satirlari gosterir
+dataset.shape
+
+#verinin ilk 5 kaydini gosterir
+dataset.head()
+
+#oznitelik ayrimi yapilir
+X = dataset.drop('Class', axis=1)
+y = dataset['Class']
+
+#test ve egitim veri setlerine ayrildi
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20)
+
+#egitim yapilir
+from sklearn.tree import DecistonTreeClassifier
+classifier = DecisionTreeClassifier()
+classifier.fit(X_train, y_train)
+
+#tahmin yapilir
+y_pred = classifier.predict(X_test}
+
+#dogrulugun hesaplanmasi icin confusion matrisi kullanildi
+
+from sklearn.metrics import classification_report, confusion_matrix
+print(confuston_matrix(y_test, y_pred))
+print(classification_report(y_test, y_pred))
