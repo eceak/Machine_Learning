@@ -1,0 +1,87 @@
+
+#kutuphaneler tanimlandi
+import mumpy as nm
+import matplotlib.pyplot as mtp
+import pandas as pd
+
+#veri seti islendi
+data_set= pd.read_esv( ‘/home/ece/Belgeler/isealim.csv')
+
+#bagimli ve bagimsiz degiskenler belirlendi
+x= data_set.iloc[:, [2,3]].values
+y= data_set.iloc[:, 4] .values
+
+#verilerin egitim ve deneme seti olarak ayrildi
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test= train_test_split(x, y, test_size= 0.25, random_state=0)
+
+#oz nitelik olceklendirne
+
+from sklearn.preprecessing (sport StandardSecaler
+st_x= StandardScaler()
+
+x_train= st_x.fit_transform(x_train)
+
+x_test= st_x.transform(x_test)
+
+#egitim setine karar agaci uygulana
+
+from sklearn.ensemble import RandomForestClassifier
+
+classifier= RandomForestClassifier(n_estimators= 10, eriterion=“entropy")
+classifier.fit(x_train, y_train)
+
+ 
+
+RandomForestClassifier(bootstrap=True, class_weight=None, criterion= 'entropy',
+                       max_depth=None, max_features='auto', max_Leaf_nodes=None,
+                       min_impurity_decrease=0.0, min _impurity_ split=None,
+                       min_samples_leaf=1, min_samples_split=2,
+                       min_weight_fraction_leaf=0.0, n_estimators=10,
+                       n_jobs=None, oob_score=False, randon_state=None,
+                       verbose=0, warm_start=False)
+
+#denemeyi tahmin etme
+y_pred= classifier.predict(x_test)
+
+#confusion matris yaratma
+from sklearn.metrics import confusion_matrix
+cm= confuston_matrix(y_test, y_pred)
+
+from matplotlib.colers import ListedColormap
+x_set, y_set = x_train, y_train
+xl, x2 = nm.meshgrid(nm.arange(start = x_set[:, 0].min() - 1, stop = x_set[:, 9].max() + 1, step= 0.01)
+nm. arange(start = x_set[:, 1].min() - 1, stop = x_set[:, 1).max() + 1, step = 6.01))
+ntp.contourf(x1, x2, classifier.predict(nm.array([x1.ravel(), x2.ravel()]).T).reshape(x1.shape),
+alpha = 0.75, cmap = ListedColornmap(( ‘pink’, “purple” )))
+ntp.xlim(x1.min(), x1.max())
+ntp.ylim(x2.min(), x2.max())
+for i, J in enumerate(nm.unique(y_set)):
+ ntp.scatter(x_set[y_set == j, 0], x_set[y_set == j, 1],
+      c = ListedColormap(( ‘blue’, ‘orange’))(i), label = j)
+
+ntp. title( ‘Random Forest Algoritmasi(Egitim seti)')
+ntp.xLabel( ‘Yas ")
+ntp.ylabel( ‘Tahmini Maas')
+ntp.legend()
+ntp.show()
+
+#deneme sonucunu bastirma
+from matplotlib.colors import ListedColormap
+x_set,y_set = x_test, y_test
+x1, x2 = nm.neshgrid(nn.arange(start = x_set[:, 0].min() - 1, stop = x_set[:, 0).max() + 1, step= 0.01)
+nm.arange(start = x_set[:, 1].min() - 1, stop = x_set[:, 1].max() + 1, step = 0.01))
+ntp.contourf(xl, x2, classifier.predict(nm.array([x1.ravel(), x2.ravel()]).T).reshape(x1.shape),
+alpha = 0.75, cmap = ListedColormap(( ‘pink’, ‘purple’ )})
+ntp.xlim(x1.min(), x1.nax())
+ntp.ylim(x2.min(), x2.max())
+for i, j in enumerate(nm. unique{y_set)):
+ mtp. scatter(x_set[y_set == j, 0], x_set[y_set == j, 1],
+c = ListedColormap(( ‘blue’, ‘orange’))(i), label = j)
+ntp.title( ‘Random Forest Algoritmast(Deneme seti)')
+ntp.xLabelt ‘Yas ')
+atp.ylabel( ‘Tahmini Maas")
+ntp. Legend()
+ntp. show()
+
+  
