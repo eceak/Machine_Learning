@@ -1,0 +1,23 @@
+
+#kutuphane tanimlandi
+import cv2
+
+#goruntu tanimlandi
+img = cv2.imread( '/home/ece/Belgeler/kizkulesi.jpg")
+
+# gri olcege donusturuldu
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+#SIFT ozellik cikarici yaratildi
+sift = cv2.xfeatures2d.SIFT_create()
+
+# goruntudeki ozellikler algilandi
+keypoints, descriptors = sift.detectAndCompute(img, None)
+
+# tespit edilen anahtar noktalar cizildi
+sift_image = cv2.drawKeypoints(gray, keypoints, img)
+
+# goruntu gosterildi
+cv2.imshow( 'resim', sift_image)
+cv2.waitKey(0)
+cv2.destroyAllWindows(0)
