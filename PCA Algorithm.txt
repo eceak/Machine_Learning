@@ -1,0 +1,49 @@
+
+#kutuphaneler tanimlandi
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+import seaborn as sns
+%matplotlib inline
+
+#sci-kit-learn kutuphanesinden veri seti elde edildi
+from sklearn.datasets import load_breast_cancer
+cancer = load_breast_cancer()
+
+#veri setindeki anahtar kelimeler kontrol edildi
+cancer.keys()
+
+#veri cercevesi ve degerler kontrol edildi
+df = pd.DataFrame(cancer['data'],columns=cancer[ 'feature_names'])
+df.head()
+
+# veriler, her bir ozelligin birim varyansi olacak ve
+# digerinden daha buyuk bir etkiye sahip olmayacak sekilde olceklendirildi
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+scaler.fit(df)
+scaled_data = scaler.transform(df)
+
+#Bir PCA nesnesi somutLastirildi, fit yontemini kullanarak temel bilesenleri bulundu
+# ardindan donusumu ve boyut azaltmayi transform () islevi cagirilarak uygulandi,
+# bilesen sayisi 2 olarak belirlendi
+from sklearn.decomposition import PCA
+pca = PCA(n_components=2)
+pca. fit(scaled_data)
+
+#veri 2 temel bilesene donusturuldu
+x_pca = pca.transform(scaled_data)
+
+#PCA oncesi ve sonrasi boyut kontrol edildi
+scaled_data.shape
+
+x_pca.shape
+
+#2 boyutta grafik cizildi
+
+plt.figure(figsize=(8,6))
+plt.scatter(x_pca[:,0],x_pca[:,1],c=cancer[ ‘target'],cmap='winter')
+plt.xlabel( 'Z1k Temel Bilesen')
+plt.ylabel('ikinci Temel Bilesen')
+
+ 
